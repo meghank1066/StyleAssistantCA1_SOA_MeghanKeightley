@@ -1,15 +1,15 @@
 html, body {
-    height: 100%; 
-    margin: 0; 
+    height: 100%;
+    margin: 0;
 }
 
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    /*    background-image: url('/images/polkadot.jpg');*/
-    background-color: #4C0719; 
+    min-height: 100vh;
+/*        background-image: url('/images/polkadot.jpg');*/
+    background-color: #4C0719;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -35,7 +35,7 @@ main {
 h1 {
     font-family: 'goth', sans-serif;
     font-size: 2.5rem;
-    color: #f1ff57;
+    color: white;
 }
 
 

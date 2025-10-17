@@ -8,7 +8,9 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddHttpClient();
+            builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IWeather, Weather>();
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
@@ -26,6 +28,7 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
 
             app.UseStaticFiles();
             app.UseAntiforgery();
+            app.MapRazorPages();
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();

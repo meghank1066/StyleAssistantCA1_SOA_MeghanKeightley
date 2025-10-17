@@ -1,5 +1,52 @@
 ﻿@page "/"
+@inject IWeather WeatherService
 
 <PageTitle>Home</PageTitle>
 
-<h1>...</h1>
+
+<h1>Check Today's Outfit Suggestion 🌦️👗</h1>
+
+<input @bind="city" placeholder="Enter your city..." />
+<button @onclick="GetWeather">Show Weather</button>
+
+
+@if (weather != null)
+{
+    <p>Current weather in @weather.City:</p>
+    <ul>
+        <li>Temperature: @weather.Temperature°C</li>
+        <li>Condition: @weather.Condition</li>
+        <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
+        <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
+        <li>Humidity: @weather.Humidity%</li>
+        <li>Suggested outfit: <b>@SuggestedOutfit(weather)</b></li>
+    </ul>
+} 
+else if (!string.IsNullOrWhiteSpace(city))
+{
+    <p>Loading weather for "@city"...</p>
+}
+@code {
+    private string city;
+    private WeatherClass weather;
+
+    private async Task GetWeather()
+    {
+        Console.WriteLine($"Button clicked! City entered: {city}");
+
+        weather = await WeatherService.GetWeatherForCityAsync(city);
+
+ 
+    }
+
+    //hard-coded outfit suggestions for demo purposes
+
+    private string SuggestedOutfit(WeatherClass w)
+    {
+        if (w.Temperature < 10) return "Layer up — coat & boots!";
+        if (w.Condition.Contains("Rain", StringComparison.OrdinalIgnoreCase))
+            return "Trench coat & waterproof shoes!";
+        if (w.Temperature > 25) return "Light dress & sandals!";
+        return "Jeans, tee, light jacket";
+    }
+}
