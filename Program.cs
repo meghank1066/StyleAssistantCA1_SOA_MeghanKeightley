@@ -24,6 +24,7 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
