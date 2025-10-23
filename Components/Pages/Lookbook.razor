@@ -1,5 +1,41 @@
 ﻿<h3>Lookbook</h3>
 
-@code {
+@page "/lookbook"
+@inject IJSRuntime JS
 
+<h1>Your Lookbook ❤️</h1>
+
+@if (likedItems != null && likedItems.Count > 0)
+{
+    <div class="product-grid">
+        @foreach (var item in likedItems)
+        {
+            <a href="@item.ProductUrl" target="_blank" class="product-card">
+                <strong>@item.Name</strong> - @item.Brand <br />
+                <img src="@item.ImageUrl" alt="@item.Name" /><br />
+                Price: @item.Price
+                <button @onclick="() => RemoveItem(item)">Remove</button>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <p>No items in your lookbook yet!</p>
+}
+
+@code {
+    private List<StyleItem> likedItems = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        likedItems = await JS.InvokeAsync<List<StyleItem>>("localStorageHelper.getItem", "lookbook");
+    }
+
+    private async Task RemoveItem(StyleItem item)
+    {
+        likedItems.Remove(item);
+        await JS.InvokeVoidAsync("localStorageHelper.setItem", "lookbook", likedItems);
+        StateHasChanged();
+    }
 }

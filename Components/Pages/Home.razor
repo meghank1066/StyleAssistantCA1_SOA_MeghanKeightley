@@ -1,14 +1,15 @@
 ﻿@page "/"
 @inject IWeather WeatherService
+@inject Asos AsosService
+
+//https://www.w3schools.com/html/html5_webstorage.asp windows local storage for liked items
 
 <PageTitle>Home</PageTitle>
-
 
 <h1>Check Today's Outfit Suggestion 🌦️👗</h1>
 
 <input @bind="city" placeholder="Enter your city..." />
 <button @onclick="GetWeather">Show Weather</button>
-
 
 @if (weather != null)
 {
@@ -19,34 +20,85 @@
         <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
         <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
         <li>Humidity: @weather.Humidity%</li>
-        <li>Suggested outfit: <b>@SuggestedOutfit(weather)</b></li>
     </ul>
-} 
+
+    <h2>Recommended Wardrobe Staples:</h2>
+    @if (outfitItems != null && outfitItems.Count > 0)
+    {
+        <div>
+            <label for="sortOptions">Sort by:</label>
+            <select id="sortOptions" @onchange="SortOutfits">
+                <option value="">Select...</option>
+                <option value="priceAsc">Price: Low to High</option>
+                <option value="priceDesc">Price: High to Low</option>
+            </select>
+        </div>
+        <div class="product-grid">
+            @foreach (var item in outfitItems)
+            {
+                <div class="product-card">
+                    <br><a href="@item.ProductUrl" target="_blank<br />
+                    <strong>@item.Name</strong> - @item.Brand <br />
+                    <img src="@item.ImageUrl" alt="@item.Name"/><br />
+                    Price: @item.Price
+                    <button @onclick="() => ToggleLike(item)">❤️ Like</button>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No outfit suggestions available.</p>
+    }
+}
 else if (!string.IsNullOrWhiteSpace(city))
 {
     <p>Loading weather for "@city"...</p>
 }
+
 @code {
     private string city;
     private WeatherClass weather;
+    private List<StyleItem> outfitItems;
 
     private async Task GetWeather()
     {
-        Console.WriteLine($"Button clicked! City entered: {city}");
+        Console.WriteLine($"button clicked! city is: {city}");
 
+        // call the WeatherService to get the weather data
         weather = await WeatherService.GetWeatherForCityAsync(city);
 
- 
+        //if weather data is retrieved, fetch outfit suggestions based on the weather
+        if (weather != null)
+        {
+            outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
+        }
+        else
+        {
+            outfitItems = null; // Reset outfit items if no weather data
+            Console.WriteLine("weather data can't be found for the specified city.");
+        }
     }
 
-    //hard-coded outfit suggestions for demo purposes
+  
 
-    private string SuggestedOutfit(WeatherClass w)
+    private void SortOutfits(ChangeEventArgs e)
     {
-        if (w.Temperature < 10) return "Layer up — coat & boots!";
-        if (w.Condition.Contains("Rain", StringComparison.OrdinalIgnoreCase))
-            return "Trench coat & waterproof shoes!";
-        if (w.Temperature > 25) return "Light dress & sandals!";
-        return "Jeans, tee, light jacket";
+        var sortOption = e.Value.ToString();
+        if (outfitItems == null) return;
+
+        switch (sortOption)
+        {
+            case "priceAsc":
+                outfitItems = outfitItems.OrderBy(item => item.Price).ToList();
+                break;
+            case "priceDesc":
+
+                outfitItems = outfitItems.OrderByDescending(item => item.Price).ToList();
+                break;
+            default:
+                break;
+        }
     }
 }
+
