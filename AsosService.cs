@@ -5,6 +5,7 @@
     {
         public string Name { get; set; }
         public string Brand { get; set; }
+        public string Colour { get; set; }
         public string Price { get; set; }
         public string ImageUrl { get; set; }
 
@@ -20,6 +21,7 @@
     {
         public string Name { get; set; }
         public Brand Brand { get; set; }
+        public string Colour { get; set; }
         public Price Price { get; set; }
         public string ImageUrl { get; set; }
 

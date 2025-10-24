@@ -6,16 +6,25 @@
         <link href="css/home.css" rel="stylesheet" />
     </head>
 
-    <main>
-        <div class="top-row">
-            <h1>FashionForecast.com</h1>
-        </div>
+    <header class="top-row">
+        <NavLink href="/" class="style-forecast-link">
+            <h1>Style Forecast</h1>
+        </NavLink>
 
+        <div class="header-buttons">
+            <NavLink class="lookbook-btn" href="lookbook">
+                <span class="bi bi-book"></span> Lookbook
+            </NavLink>
+        </div>
+    </header>
+
+    <main>
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
 
 @* <div id="blazor-error-ui">
     An unhandled error has occurred.

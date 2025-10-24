@@ -8,7 +8,6 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
     }
 
 
-
     public class WeatherClass
     {
         public string City { get; set; }

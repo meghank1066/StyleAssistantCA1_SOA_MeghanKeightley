@@ -1,50 +1,76 @@
 ﻿@page "/"
 @inject IWeather WeatherService
 @inject Asos AsosService
-
-//https://www.w3schools.com/html/html5_webstorage.asp windows local storage for liked items
+@inject IJSRuntime JS
 
 <PageTitle>Home</PageTitle>
 
-<h1>Check Today's Outfit Suggestion 🌦️👗</h1>
+<h1>Check Today's Outfit Suggestion</h1>
 
-<input @bind="city" placeholder="Enter your city..." />
-<button @onclick="GetWeather">Show Weather</button>
+<div class="search-city">
+    <input @bind="city" placeholder="Enter city, country code (e.g., Dublin,IE)" />
+    <button @onclick="GetWeather">Show Weather</button>
+</div> 
+
 
 @if (weather != null)
 {
-    <p>Current weather in @weather.City:</p>
-    <ul>
-        <li>Temperature: @weather.Temperature°C</li>
-        <li>Condition: @weather.Condition</li>
-        <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
-        <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
-        <li>Humidity: @weather.Humidity%</li>
-    </ul>
+    <div class="weather-card-wrapper">
+        <div class="weather-card">
+            <p class="weather-title">Current weather in @weather.City:</p>
+            <ul class="weather-list">
+                <li>Temperature: @weather.Temperature°C</li>
+                <li>Condition: @weather.Condition</li>
+                <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
+                <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
+                <li>Humidity: @weather.Humidity%</li>
+            </ul>
+            <p class="temperature-message">@GetOutfitSuggestion(weather.Temperature, weather.Condition)</p>
+        </div>
+    </div>
+
 
     <h2>Recommended Wardrobe Staples:</h2>
-    @if (outfitItems != null && outfitItems.Count > 0)
+
+    <div class="filter-section">
+        <input @bind="nameFilter" placeholder="Filter by name" />
+        <input @bind="colourFilter" placeholder="Filter by colour" />
+        <button @onclick="ApplyFiltersAndSort">Apply Filters</button>
+    </div>
+
+
+    <div class="sort-container">
+        <label for="sortOptions">Sort by:</label>
+        <select id="sortOptions" @onchange="SortChanged">
+            <option value="">Select...</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+            <option value="nameAsc">Name: A to Z</option>
+            <option value="nameDesc">Name: Z to A</option>
+        </select>
+    </div>
+
+    @* Outfit Display *@
+    @if (displayedItems != null && displayedItems.Count > 0)
     {
-        <div>
-            <label for="sortOptions">Sort by:</label>
-            <select id="sortOptions" @onchange="SortOutfits">
-                <option value="">Select...</option>
-                <option value="priceAsc">Price: Low to High</option>
-                <option value="priceDesc">Price: High to Low</option>
-            </select>
-        </div>
         <div class="product-grid">
-            @foreach (var item in outfitItems)
+            @foreach (var item in displayedItems)
             {
                 <div class="product-card">
-                    <br><a href="@item.ProductUrl" target="_blank<br />
-                    <strong>@item.Name</strong> - @item.Brand <br />
-                    <img src="@item.ImageUrl" alt="@item.Name"/><br />
-                    Price: @item.Price
-                    <button @onclick="() => ToggleLike(item)">❤️ Like</button>
+                    <strong>@item.Name</strong><br />
+                    <em>@item.Brand</em><br />
+                    <a href="@item.ProductUrl" target="_blank">
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                    </a><br />
+                    <p>@item.Price</p>
+                    <button @onclick="() => SaveToLookbook(item)">❤️ Save to Lookbook</button>
                 </div>
             }
         </div>
+    }
+    else if (outfitItems != null && outfitItems.Count > 0)
+    {
+        <p>No matches found for your filter 😕</p>
     }
     else
     {
@@ -53,52 +79,135 @@
 }
 else if (!string.IsNullOrWhiteSpace(city))
 {
+    <div class="loading-weather">
     <p>Loading weather for "@city"...</p>
+    </div>
 }
 
+
 @code {
+
+
+
+
+
+
+
     private string city;
     private WeatherClass weather;
-    private List<StyleItem> outfitItems;
+    private List<StyleItem> outfitItems = new();
+    private string currentSort = "";
+    private List<StyleItem> displayedItems = new();
+    private string nameFilter = "";
+    private string colourFilter = "";
+
 
     private async Task GetWeather()
     {
         Console.WriteLine($"button clicked! city is: {city}");
 
-        // call the WeatherService to get the weather data
         weather = await WeatherService.GetWeatherForCityAsync(city);
 
-        //if weather data is retrieved, fetch outfit suggestions based on the weather
         if (weather != null)
         {
             outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
+            displayedItems = outfitItems.ToList();
         }
         else
         {
-            outfitItems = null; // Reset outfit items if no weather data
+            outfitItems = null;
             Console.WriteLine("weather data can't be found for the specified city.");
         }
     }
 
-  
-
-    private void SortOutfits(ChangeEventArgs e)
+    private string GetOutfitSuggestion(double temp, string condition)
     {
-        var sortOption = e.Value.ToString();
-        if (outfitItems == null) return;
+        string tempMessage;
 
-        switch (sortOption)
+
+
+        // Temperature-based message
+
+        if (temp <= 5)
+
+            tempMessage = "It's bloody freezing.. Where's me jacket?";
+
+        else if (temp <= 15)
+
+            tempMessage = "Chilly!  A light jacket or sweater will do";
+
+        else if (temp <= 25)
+
+            tempMessage = "Nice weather!  Something comfy and breathable works";
+
+        else
+
+            tempMessage = "Hot hot hot! Shorts and a tee are your friends today";
+
+        // Condition-based flair
+        string conditionMessage = condition?.ToLower() switch
         {
-            case "priceAsc":
-                outfitItems = outfitItems.OrderBy(item => item.Price).ToList();
-                break;
-            case "priceDesc":
+            "rain" or "rainy" => "💧 Don't forget your umbrella or a cute raincoat!",
+            "snow" or "snowy" => "❄️ Boots and a warm hat are a must!",
+            "clouds" or "cloudy" => "☁️ Layer up lightly, it might be a bit cool.",
+            "sun" or "sunny" => "😎 Sunglasses and vibes only!",
+            _ => ""
+        };
 
-                outfitItems = outfitItems.OrderByDescending(item => item.Price).ToList();
-                break;
-            default:
-                break;
-        }
+        return $"{tempMessage}. {conditionMessage}";
     }
-}
 
+    private void ApplyFiltersAndSort()
+    {
+        if (outfitItems == null || outfitItems.Count == 0)
+        {
+            displayedItems = new List<StyleItem>();
+            return;
+        }
+
+        var filtered = outfitItems.Where(item =>
+  {
+      bool matchesName = string.IsNullOrWhiteSpace(nameFilter) ||
+                         (!string.IsNullOrWhiteSpace(item.Name) &&
+                          item.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase));
+
+      bool matchesColour = string.IsNullOrWhiteSpace(colourFilter) ||
+                           (!string.IsNullOrWhiteSpace(item.Colour) &&
+                            item.Colour.Contains(colourFilter, StringComparison.OrdinalIgnoreCase));
+
+
+      return matchesName && matchesColour;
+  }).ToList();
+
+        displayedItems = currentSort switch
+        {
+            "priceAsc" => filtered.OrderBy(item => ParsePrice(item.Price)).ToList(),
+            "priceDesc" => filtered.OrderByDescending(item => ParsePrice(item.Price)).ToList(),
+            "nameAsc" => filtered.OrderBy(item => item.Name).ToList(),
+            "nameDesc" => filtered.OrderByDescending(item => item.Name).ToList(),
+            _ => filtered
+        };
+    }
+
+    private void SortChanged(ChangeEventArgs e)
+    {
+        currentSort = e.Value?.ToString() ?? "";
+        ApplyFiltersAndSort();
+    }
+
+    private decimal ParsePrice(string price)
+    {
+        if (string.IsNullOrWhiteSpace(price)) return decimal.MaxValue;
+
+        // Keep only digits and dot
+        var cleaned = new string(price.Where(c => char.IsDigit(c) || c == '.').ToArray());
+
+        return decimal.TryParse(cleaned, out var result) ? result : decimal.MaxValue;
+    }
+
+   
+    private async Task SaveToLookbook(StyleItem item)
+    { 
+        await JS.InvokeVoidAsync("saveToLookbook", item);
+    }
+    }

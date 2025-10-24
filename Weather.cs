@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using StyleAssistantCA1_SOA_MeghanKeightley;
+using System.Net.Http;
+using System.Text.Json;
 using static System.Net.WebRequestMethods;
 
 //references used for weather API
@@ -11,12 +14,12 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
     public class Weather : IWeather //weather class implementing IWeather interface
     {
         private readonly HttpClient _httpClient; //http client to make requests
-        private readonly string key; 
+        private readonly string key;
         public Weather(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient; //initializing
             key = config["OpenWeatherMap:ApiKey"]; //getting api
-            if (string.IsNullOrEmpty(key)) 
+            if (string.IsNullOrEmpty(key))
                 throw new Exception("API key missing!");
         }
 
@@ -26,6 +29,7 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         {
             try
             {
+                //var encodedCity = Uri.EscapeDataString(City.Trim());
                 var url = $"https://api.openweathermap.org/data/2.5/weather?q={City}&appid={key}&units=metric";
                 var response = await _httpClient.GetAsync(url);
                 var json = await response.Content.ReadAsStringAsync();
@@ -56,4 +60,5 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         }
 
     }
-}  
+}
+
