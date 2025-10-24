@@ -19,21 +19,28 @@
 }
 else
 {
-    <p>No items in your lookbook yet!</p>
+<div class="empty-lookbook">
+    <p>No items in your lookbook yet :(</p>
+    </div>
 }
 
 @code {
     private List<StyleItem> likedItems = new();
 
-    protected override async Task OnInitializedAsync()
+    // loading liked items from local storage on component initialization
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        likedItems = await JS.InvokeAsync<List<StyleItem>>("localStorageHelper.getItem", "lookbook");
+        if (firstRender)
+        {
+            likedItems = await JS.InvokeAsync<List<StyleItem>>("localStorageHelper.getItem", "lookbook");
+            StateHasChanged(); // triggers a re-render after fetching data
+        }
     }
 
     private async Task RemoveItem(StyleItem item)
     {
         likedItems.Remove(item);
         await JS.InvokeVoidAsync("localStorageHelper.setItem", "lookbook", likedItems);
-        StateHasChanged();
+        StateHasChanged(); // updates the UI after removing an item
     }
 }

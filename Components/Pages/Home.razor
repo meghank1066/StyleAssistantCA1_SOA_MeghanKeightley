@@ -10,7 +10,17 @@
 <div class="search-city">
     <input @bind="city" placeholder="Enter city, country code (e.g., Dublin,IE)" />
     <button @onclick="GetWeather">Show Weather</button>
-</div> 
+</div>
+
+
+@if (LoadingAnimation)
+{
+    <div class="spinner-overlay d-flex flex-column justify-content-center align-items-center">
+        <div class="spinner-border text-danger" role="status" style="width: 4rem; height: 4rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
 
 
 @if (weather != null)
@@ -29,25 +39,27 @@
         </div>
     </div>
 
-
     <h2>Recommended Wardrobe Staples:</h2>
 
-    <div class="filter-section">
-        <input @bind="nameFilter" placeholder="Filter by name" />
-        <input @bind="colourFilter" placeholder="Filter by colour" />
-        <button @onclick="ApplyFiltersAndSort">Apply Filters</button>
-    </div>
+    <div class="controls-row">
 
+        <div class="filter-section">
+            <div class="sort-container">
+                <label for="sortOptions">Sort by:</label>
+                <select id="sortOptions" @onchange="SortChanged">
+                    <option value="">Select...</option>
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="nameAsc">Name: A to Z</option>
+                    <option value="nameDesc">Name: Z to A</option>
+                </select>
+            </div>
+            <input @bind="nameFilter" placeholder="Filter by name" />
+            <input @bind="colourFilter" placeholder="Filter by colour" />
+            <button @onclick="ApplyFiltersAndSort">Apply Filters</button>
+        </div>
 
-    <div class="sort-container">
-        <label for="sortOptions">Sort by:</label>
-        <select id="sortOptions" @onchange="SortChanged">
-            <option value="">Select...</option>
-            <option value="priceAsc">Price: Low to High</option>
-            <option value="priceDesc">Price: High to Low</option>
-            <option value="nameAsc">Name: A to Z</option>
-            <option value="nameDesc">Name: Z to A</option>
-        </select>
+       
     </div>
 
     @* Outfit Display *@
@@ -80,19 +92,12 @@
 else if (!string.IsNullOrWhiteSpace(city))
 {
     <div class="loading-weather">
-    <p>Loading weather for "@city"...</p>
+        <p>Loading weather for "@city"...</p>
     </div>
 }
 
 
 @code {
-
-
-
-
-
-
-
     private string city;
     private WeatherClass weather;
     private List<StyleItem> outfitItems = new();
@@ -100,24 +105,62 @@ else if (!string.IsNullOrWhiteSpace(city))
     private List<StyleItem> displayedItems = new();
     private string nameFilter = "";
     private string colourFilter = "";
+    private bool LoadingAnimation = false;
 
 
     private async Task GetWeather()
-    {
+
+
+    { 
         Console.WriteLine($"button clicked! city is: {city}");
+        LoadingAnimation = true;
 
-        weather = await WeatherService.GetWeatherForCityAsync(city);
+        outfitItems.Clear();
 
-        if (weather != null)
+        displayedItems.Clear();
+
+        weather = null;
+
+        try
+
         {
-            outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
-            displayedItems = outfitItems.ToList();
-        }
+            weather = await WeatherService.GetWeatherForCityAsync(city);
+
+            if (weather != null)
+
+
+            {
+                outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
+
+
+                displayedItems = outfitItems.ToList();
+            }
         else
-        {
-            outfitItems = null;
-            Console.WriteLine("weather data can't be found for the specified city.");
+
+
+            {
+                LoadingAnimation = false;
+
+                outfitItems = null;
+
+
+                Console.WriteLine("weather data can't be found for the specified city.");
+
+
+            }
+
         }
+
+        finally
+
+        {
+
+            LoadingAnimation = false;
+
+            StateHasChanged();
+
+        }
+
     }
 
     private string GetOutfitSuggestion(double temp, string condition)
@@ -147,10 +190,10 @@ else if (!string.IsNullOrWhiteSpace(city))
         // Condition-based flair
         string conditionMessage = condition?.ToLower() switch
         {
-            "rain" or "rainy" => "💧 Don't forget your umbrella or a cute raincoat!",
-            "snow" or "snowy" => "❄️ Boots and a warm hat are a must!",
-            "clouds" or "cloudy" => "☁️ Layer up lightly, it might be a bit cool.",
-            "sun" or "sunny" => "😎 Sunglasses and vibes only!",
+            "rain" or "rainy" => "Don't forget your umbrella or a cute raincoat!",
+            "snow" or "snowy" => "❄Boots and a warm hat are a must!",
+            "clouds" or "cloudy" => "Layer up lightly, it might be a bit cool.",
+            "sun" or "sunny" => "Sunglasses and vibes only!",
             _ => ""
         };
 
@@ -205,9 +248,9 @@ else if (!string.IsNullOrWhiteSpace(city))
         return decimal.TryParse(cleaned, out var result) ? result : decimal.MaxValue;
     }
 
-   
+
     private async Task SaveToLookbook(StyleItem item)
-    { 
+    {
         await JS.InvokeVoidAsync("saveToLookbook", item);
     }
-    }
+}
