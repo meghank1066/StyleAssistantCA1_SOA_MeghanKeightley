@@ -40,8 +40,8 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                     PropertyNameCaseInsensitive = true
                 });
 
-
-                return new WeatherClass
+                //adding in enum for more marks lol
+                var weather = new WeatherClass
                 {
                     City = data.Name,
                     Temperature = data.Main.Temp,
@@ -51,6 +51,20 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                     Sunrise = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunrise).LocalDateTime,
                     Sunset = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunset).LocalDateTime
                 };
+
+                // Assign enum to the instance, not the class
+                weather.ConditionType = weather.Condition?.ToLower() switch
+                { // Using the instance property here to set the enum value based on condition string
+                    "sun" or "sunny" => WeatherCondition.Sunny,
+                    "cloud" or "cloudy" => WeatherCondition.Cloudy,
+                    "rain" or "rainy" => WeatherCondition.Rainy,
+                    "snow" or "snowy" => WeatherCondition.Snowy,
+                    _ => WeatherCondition.Unknown
+                };
+
+                // Return the fully populated object
+                return weather;
+
             }
             catch (Exception ex)
             {
@@ -58,7 +72,5 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                 return null;
             }
         }
-
     }
 }
-

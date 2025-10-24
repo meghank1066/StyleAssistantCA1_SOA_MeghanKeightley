@@ -120,26 +120,29 @@ button {
 .weather-card-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 80vh;
+    align-items: flex-start;
     width: 100%;
-    padding: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
 }
 
 .weather-card {
     background-color: #ffffff;
-    border-radius: 25px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    padding: 30px 25px;
-    max-width: 360px;
-    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 40px 30px;
+    width: 90vw;
+    margin: 10px;
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .weather-title {
     font-weight: bold;
-    font-size: 1.4rem;
+    font-size: 2rem;
     margin-bottom: 15px;
     color: #333;
 }
@@ -149,18 +152,45 @@ button {
     padding: 0;
     margin: 0 0 20px 0;
     color: #555;
+    font-size: 1.5rem;
+    flex-grow: 1;
 }
 
     .weather-list li {
-        margin: 5px 0;
+        margin: 10px 0;
     }
 
 .temperature-message {
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 3rem;
+    font-weight: 700;
     color: #C71E4D;
+    margin-top: 20px;
+    width: 100%;
 }
 
+.additional-info {
+    font-size: 1.8rem;
+    color: #555;
+    margin-top: 20px;
+}
+
+
+@media (min-width: 768px) {
+    .weather-card-wrapper {
+        flex-direction: row;
+    }
+
+    .weather-card {
+        max-width: 300px;
+        flex: 1 1 calc(33.33% - 20px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .weather-card {
+        flex: 1 1 calc(20% - 20px);
+    }
+}
 
    
 /* Sort Dropdown */
@@ -169,7 +199,7 @@ button {
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 0.9rem;
-    margin-bottom: 20px;
+/*    margin-bottom: 20px;*/
 }
 
 .temperature-message {
@@ -283,6 +313,8 @@ button {
     padding: 0 12px;
 }
 
+
+
 .filter-section {
     display: flex;
     gap: 10px;
@@ -293,15 +325,15 @@ button {
 
     .filter-section input {
         height: 38px;
-    /*        padding: 0 12px;*/
-    font-size: 0.95rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+        line-height: 38px;
+        padding: 0 12px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
     }
 
     .filter-section button {
         padding: 8px 14px;
-        height: 38px;
         border-radius: 8px;
         border: none;
         background-color: #ff4081;
@@ -327,15 +359,17 @@ button {
         font-family: 'goth', sans-serif;
         font-weight: bold;
         color: #ff4081;
-        font-size: 0.95rem;
+        line-height: 38px;
+        font-size: 1.05rem;
         display: inline-flex;
         align-items: center;
-        margin: 0 
+        margin: 0;
+        width: 5vw;
     }
 
     .sort-container select {
-        height: 38px;
         padding: 0 10px;
+         appearance: none;
         border-radius: 8px;
         border: 1px solid #ccc;
         font-size: 0.95rem;
@@ -406,21 +440,20 @@ button {
         .suggestions-list li:hover {
             background: #f0f0f0;
         }
-
 .weather-card-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 50vh;
     padding: 10px;
 }
 
 .weather-card {
     background-color: #ffffff;
     border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     padding: 30px 25px;
-    max-width: 350px;
+    max-width: 100vw;
     width: 100%;
     text-align: center;
     font-family: 'Arial', sans-serif;
@@ -433,27 +466,82 @@ button {
 
 .weather-title {
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 2rem;
     margin-bottom: 15px;
-    color: #333;
+    color: #C71E4D;
 }
 
-.weather-list {
+/*.weather-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     list-style: none;
     padding: 0;
     margin: 0 0 20px 0;
     color: #555;
+    font-family: 'goth', sans-serif;
 }
 
-    .weather-list li {
-        margin: 5px 0;
+
+
+.weather-list li {
+    margin: 5px 0;
+    text-align: center;
+}*/
+
+.dividerhero {
+    background-color: white;
+    height: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+    .dividerhero h2 {
+        font-family: 'goth', sans-serif;
+        color: #4C0719;
+        text-align: center;
+        font-size: 1.5rem;
+        margin: 20px 0;
+        padding: 20px;
     }
 
+.weather-list,
+.weather-list2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    color: #4c0719;
+    font-family: 'goth', sans-serif;
+    font-size: 1.5em;
+}
+
+    .weather-list li,
+    .weather-list2 li {
+        margin: 5px 0;
+        text-align: center;
+        line-height: 1.4;
+    }
+
+.weather-list2 {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+
 .temperature-message {
-    font-size: 1rem;
+    font-size: 1.0rem;
     font-weight: 500;
     color: #C71E4D;
+    font-family: 'goth', sans-serif;
+    padding: 0;
+    margin: 0 0 20px 0;
 }
+
 
 .empty-lookbook p {
     color: white;
@@ -461,6 +549,14 @@ button {
     text-align: center;
     margin-top: 20px;
     font-family: 'softie', sans-serif;
+}
+
+.loading-weather, .loading-weather p {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Goth', sans-serif;
 }
 
 
@@ -477,6 +573,7 @@ button {
         .filter-section input {
             flex: 1 1 45%;
             max-width: none;
+            line-height: 38px;
         }
 
     .sort-container {
@@ -516,6 +613,8 @@ button {
     .top-row {
         flex-direction: column;
         align-items: center;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
     }
 
     .style-forecast-link img {
@@ -555,3 +654,168 @@ button {
         padding: 0.3rem 0.5rem;
     }
 }
+
+@media (max-width: 768px) {
+    .weather-card-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        padding: 10px;
+    }
+
+    .weather-card {
+        background-color: #ffffff;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        padding: 30px 25px;
+        max-width: 350px;
+        width: 100%;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        transition: transform 0.2s;
+    }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .weather-title {
+        font-weight: bold;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .weather-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+        color: #555;
+    }
+
+        .weather-list li {
+            margin: 5px 0;
+        }
+
+    .temperature-message {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #C71E4D;
+    }
+}
+
+/* === MOBILE RESPONSIVE FIXES === */
+
+/* Screens up to 720px */
+@media (max-width: 720px) {
+    /* Header logo and H1 stack */
+    .top-row {
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem;
+        height: auto;
+    
+    }
+
+    .style-forecast-link img {
+        max-height: 6rem;
+    }
+
+    .style-forecast-link h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    /* Lookbook button centered under logo + H1 */
+    .lookbook-btn {
+        display: block;
+        margin: 10px auto 20px auto; /* centered below H1 */
+        font-size: 1rem;
+        padding: 0.4rem 0.6rem;
+        width: auto;
+        text-align: center;
+    }
+
+    /* Weather card responsive */
+    .weather-card-wrapper {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    .weather-card {
+        max-width: 95%;
+        padding: 20px 15px;
+    }
+
+    .weather-title {
+        font-size: 1.3rem;
+    }
+
+    .weather-list,
+    .weather-list2 {
+        grid-template-columns: repeat(2, 1fr);
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+        .weather-list li,
+        .weather-list2 li {
+            line-height: 1.2;
+        }
+
+    .temperature-message {
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    /* Filters / sort / search stacking */
+    .controls-row {
+        flex-direction: column; /* stack everything vertically */
+        align-items: stretch;
+        gap: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 12px;
+    }
+
+    .filter-section {
+        flex-direction: column; /* stack inputs and button */
+        gap: 8px;
+        width: 100%;
+        align-items: stretch;
+    }
+
+        .filter-section input,
+        #sortOptions {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .filter-section button {
+            width: 100%;
+        }
+
+    .sort-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        width: 100%;
+    }
+
+        .sort-container label {
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .sort-container select {
+            width: 100%;
+            min-width: unset;
+        }
+}
+
+
+ 

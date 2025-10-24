@@ -17,7 +17,17 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         public double FeelsLike { get; set; }  
         public int Humidity { get; set; } 
         public DateTime Sunrise { get; set; }     
-        public DateTime Sunset { get; set; }   
+        public DateTime Sunset { get; set; }
+        public WeatherCondition ConditionType { get; set; } = WeatherCondition.Unknown;
+    }
+
+    public enum WeatherCondition
+    {
+        Sunny,
+        Cloudy,
+        Rainy,
+        Snowy,
+        Unknown
     }
     public class MainInfo
     {
