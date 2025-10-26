@@ -3,7 +3,7 @@
 # Overview
 
 ### Style Forecast is a Blazor web application that provides personalized
-### fashion recommendations based on the weather in a user’s location.
+### fashion recommendations based on the weather in a userâ€™s location.
 ### By combining live weather data with fashion product information,
 ### users can discover season-appropriate outfits and save their favorites in a Lookbook.
 
@@ -31,11 +31,10 @@
 
 - **Clone the repository:**  
   `git clone <https://github.com/meghank1066/StyleAssistantCA1_SOA_MeghanKeightley.git>`
-
 - **Open the solution in Visual Studio**
-
-- **Restore NuGet packages** 
-
-- **Run the application** 
-- 
+  
+- **Restore NuGet packages**
+  
+- **Run the application**
+  
 - **Enjoy!** 
