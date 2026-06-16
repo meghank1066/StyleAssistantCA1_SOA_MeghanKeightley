@@ -30,6 +30,7 @@ window.saveToLookbook = (item) => {
     const formattedItem = {
         Name: item.name || item.Name,
         Brand: item.brand || item.Brand,
+        Brand: item.brand || item.Brand,
         Price: item.price || item.Price,
         ImageUrl: item.imageUrl || item.ImageUrl,
         ProductUrl: item.productUrl || item.ProductUrl,

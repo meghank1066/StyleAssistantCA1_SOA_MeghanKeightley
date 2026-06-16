@@ -1,82 +1,81 @@
 ﻿@page "/"
+
 @inject IWeather WeatherService
 @inject Asos AsosService
 @inject IJSRuntime JS
 
 <PageTitle>Home</PageTitle>
 
-<h1>Check Today's Outfit Suggestion</h1>
+<section class="hero">
+    <div class="hero-content">
 
-<div class="search-city">
-    <input @bind="city" placeholder="Enter city, country code (e.g., Dublin,IE)" />
-    <button @onclick="GetWeather">Show Weather</button>
-</div>
+        <span class="hero-label">FASHION × WEATHER</span>
 
+        <h1>STYLE FORECAST</h1>
 
-@if (LoadingAnimation)
-{
-    <div class="spinner-overlay d-flex flex-column justify-content-center align-items-center">
-        <div class="spinner-border text-danger" role="status" style="width: 4rem; height: 4rem;">
-            <span class="visually-hidden">Loading...</span>
+        <p class="hero-subtitle">
+            Weather-powered outfit recommendations.
+        </p>
+
+        <div class="search-city">
+            <input @bind="city" placeholder="Enter city, country code (e.g., Dublin,IE)" />
+            <button @onclick="GetWeather">Show Weather</button>
         </div>
-    </div>
-}
 
+        @if (LoadingAnimation)
+        {
+            <div class="spinner-overlay d-flex flex-column justify-content-center align-items-center">
+                <div class="spinner-border" style="width: 4rem; height: 4rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
 
 @if (weather != null)
 {
     <div class="weather-card-wrapper">
+
         <div class="weather-card">
-            <p class="weather-title">Current weather in @weather.City:</p>
+
+            <div class="weather-location-label">Current Weather</div>
+
+            <h2 class="weather-title">@weather.City</h2>
+
+            <div class="temperature-big">
+                @Math.Round(weather.Temperature)°
+            </div>
+
             <ul class="weather-list">
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-thermometer-sun" viewBox="0 0 16 16">
-                        <path d="M5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585A1.5 1.5 0 0 1 5 12.5" />
-                        <path d="M1 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM3.5 1A1.5 1.5 0 0 0 2 2.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0L5 10.486V2.5A1.5 1.5 0 0 0 3.5 1m5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5m4.243 1.757a.5.5 0 0 1 0 .707l-.707.708a.5.5 0 1 1-.708-.708l.708-.707a.5.5 0 0 1 .707 0M8 5.5a.5.5 0 0 1 .5-.5 3 3 0 1 1 0 6 .5.5 0 0 1 0-1 2 2 0 0 0 0-4 .5.5 0 0 1-.5-.5M12.5 8a.5.5 0 0 1 .5-.5h1a.5.5 0 1 1 0 1h-1a.5.5 0 0 1-.5-.5m-1.172 2.828a.5.5 0 0 1 .708 0l.707.708a.5.5 0 0 1-.707.707l-.708-.707a.5.5 0 0 1 0-.708M8.5 12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5" />
-                    </svg>
-                    Temperature: @weather.Temperature°C
-                </li>
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-sun" viewBox="0 0 16 16">
-                        <path d="M7 8a3.5 3.5 0 0 1 3.5 3.555.5.5 0 0 0 .624.492A1.503 1.503 0 0 1 13 13.5a1.5 1.5 0 0 1-1.5 1.5H3a2 2 0 1 1 .1-3.998.5.5 0 0 0 .51-.375A3.5 3.5 0 0 1 7 8m4.473 3a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5z" />
-                        <path d="M10.5 1.5a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0zm3.743 1.964a.5.5 0 1 0-.707-.707l-.708.707a.5.5 0 0 0 .708.708zm-7.779-.707a.5.5 0 0 0-.707.707l.707.708a.5.5 0 1 0 .708-.708zm1.734 3.374a2 2 0 1 1 3.296 2.198q.3.423.516.898a3 3 0 1 0-4.84-3.225q.529.017 1.028.129m4.484 4.074c.6.215 1.125.59 1.522 1.072a.5.5 0 0 0 .039-.742l-.707-.707a.5.5 0 0 0-.854.377M14.5 6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
-                    </svg>
-                    Condition: @weather.Condition
-                </li>
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sunrise" viewBox="0 0 16 16">
-                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l1.5 1.5a.5.5 0 0 1-.708.708L8.5 2.707V4.5a.5.5 0 0 1-1 0V2.707l-.646.647a.5.5 0 1 1-.708-.708zM2.343 4.343a.5.5 0 0 1 .707 0l1.414 1.414a.5.5 0 0 1-.707.707L2.343 5.05a.5.5 0 0 1 0-.707m11.314 0a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0M8 7a3 3 0 0 1 2.599 4.5H5.4A3 3 0 0 1 8 7m3.71 4.5a4 4 0 1 0-7.418 0H.499a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-3.79zM0 10a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 10m13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
-                    </svg>
-                    Sunrise: @weather.Sunrise.ToString("h:mm tt")
-                     </li>
+                <li>Temperature: @weather.Temperature°C</li>
+                <li>Condition: @weather.Condition</li>
+                <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
             </ul>
+
             <ul class="weather-list2">
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sunset" viewBox="0 0 16 16">
-                        <path d="M7.646 4.854a.5.5 0 0 0 .708 0l1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V1.5a.5.5 0 0 0-1 0v1.793l-.646-.647a.5.5 0 1 0-.708.708zm-5.303-.51a.5.5 0 0 1 .707 0l1.414 1.413a.5.5 0 0 1-.707.707L2.343 5.05a.5.5 0 0 1 0-.707zm11.314 0a.5.5 0 0 1 0 .706l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zM8 7a3 3 0 0 1 2.599 4.5H5.4A3 3 0 0 1 8 7m3.71 4.5a4 4 0 1 0-7.418 0H.499a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-3.79zM0 10a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 10m13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
-                    </svg>
-                    Sunset: @weather.Sunset.ToString("h:mm tt")
-                </li>
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moisture" viewBox="0 0 16 16">
-                        <path d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a29 29 0 0 0-1.274 1.517c-.769.983-1.714 2.325-2.385 3.727C2.368 7.564 2 8.682 2 9.733 2 12.614 4.212 15 7 15s5-2.386 5-5.267c0-1.05-.368-2.169-.867-3.212-.671-1.402-1.616-2.744-2.385-3.727a29 29 0 0 0-1.354-1.605l-.022-.023-.006-.007-.002-.001zm0 0-.364-.343zm-.016.766L7 2.247l.016.019c.24.274.572.667.944 1.144.611.781 1.32 1.776 1.901 2.827H4.14c.58-1.051 1.29-2.046 1.9-2.827.373-.477.706-.87.945-1.144zM3 9.733c0-.755.244-1.612.638-2.496h6.724c.395.884.638 1.741.638 2.496C11 12.117 9.182 14 7 14s-4-1.883-4-4.267" />
-                    </svg>
-                    Humidity: @weather.Humidity%</li>
+                <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
+                <li>Humidity: @weather.Humidity%</li>
             </ul>
-            <p class="temperature-message">@GetOutfitSuggestion(weather.Temperature, weather.ConditionType)</p>
+
+            <p class="temperature-message">
+                @GetOutfitSuggestion(weather.Temperature, weather.ConditionType)
+            </p>
+
         </div>
     </div>
-   
 
     <div class="dividerhero">
-    <h2>Recommended Wardrobe Staples:</h2>
+        <h2 class="recommend-title">Recommended Wardrobe Staples</h2>
+    </div>
 
     <div class="controls-row">
-
         <div class="filter-section">
+
             <div class="sort-container">
-                <label for="sortOptions">Sort by:</label>
-                <select id="sortOptions" @onchange="SortChanged">
+                <label>Sort by:</label>
+                <select @onchange="SortChanged">
                     <option value="">Select...</option>
                     <option value="priceAsc">Price: Low to High</option>
                     <option value="priceDesc">Price: High to Low</option>
@@ -84,48 +83,53 @@
                     <option value="nameDesc">Name: Z to A</option>
                 </select>
             </div>
+
             <input @bind="nameFilter" placeholder="Filter by name" />
             <input @bind="colourFilter" placeholder="Filter by colour" />
+
             <button @onclick="ApplyFiltersAndSort">Apply Filters</button>
             <button @onclick="ClearFilters">Clear</button>
-        </div>
 
-       
+        </div>
     </div>
 
-    @* Outfit Display *@
     @if (displayedItems != null && displayedItems.Count > 0)
     {
         <div class="product-grid">
+
             @foreach (var item in displayedItems)
             {
                 <div class="product-card">
-                    <strong>@item.Name</strong><br />
-                    <em>@item.Brand</em><br />
-                        <a href="@(item.ProductUrl.StartsWith("http") ? item.ProductUrl : "https://www.asos.com" + item.ProductUrl)" target="_blank">
-                            <img src="@item.ImageUrl" alt="@item.Name" />
-                        </a>
 
+                    <a href="@(item.ProductUrl.StartsWith("http")
+                                                       ? item.ProductUrl
+                                                       : "https://www.asos.com" + item.ProductUrl)"
+           target="_blank">
+
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                    </a>
+
+                    <h3>@item.Name</h3>
+                    <p>@item.Brand</p>
                     <p>@item.Price</p>
-                    <button @onclick="() => SaveToLookbook(item)">❤️ Save to Lookbook</button>
-                </div>
-            }
-        </div>
 
-    }
-        else if (!LoadingAnimation)
-      @* only show when not loading *@
-        {
-            if (outfitItems != null && outfitItems.Count > 0)
-            {
-                <p>No matches found for your filter 😕</p>
-            }
-            else
-            {
-                <p>No outfit suggestions available.</p>
-            }
+                    <button @onclick="() => SaveToLookbook(item)">
+                        Save
+                    </button>
+
+                </div>
         }
-    </div>
+
+        </div>
+    }
+    else if (!LoadingAnimation)
+    {
+        <p>
+            @(outfitItems != null && outfitItems.Count > 0
+                ? "No matches found for your filter 😕"
+                : "No outfit suggestions available.")
+</p>
+    }
 }
 else if (!string.IsNullOrWhiteSpace(city))
 {
@@ -134,88 +138,66 @@ else if (!string.IsNullOrWhiteSpace(city))
     </div>
 }
 
-
 @code {
 
     private string city;
     private WeatherClass weather;
+
     private List<StyleItem> outfitItems = new();
-    private string currentSort = "";
     private List<StyleItem> displayedItems = new();
+
+    private string currentSort = "";
     private string nameFilter = "";
     private string colourFilter = "";
+
     private bool LoadingAnimation = false;
-    private bool _jsInitialized = false;
-
-
-
-
-
-
 
     private async Task GetWeather()
     {
-        Console.WriteLine($"button clicked! city is: {city}");
         LoadingAnimation = true;
+
         outfitItems.Clear();
         displayedItems.Clear();
         weather = null;
 
         try
-
-        { weather = await WeatherService.GetWeatherForCityAsync(city);
+        {
+            weather = await WeatherService.GetWeatherForCityAsync(city);
 
             if (weather != null)
-
             {
-
                 outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
-
                 displayedItems = outfitItems.ToList();
             }
-        else {
-                LoadingAnimation = false;
-                 outfitItems = null;
-                 Console.WriteLine("weather data can't be found for the specified city."); 
-        }
         }
         finally
         {
             LoadingAnimation = false;
             StateHasChanged();
-
         }
     }
 
     private string GetOutfitSuggestion(double temp, WeatherCondition conditionType)
     {
-        string tempMessage;
-        // Temperature-based message
-
-        if (temp <= 5)
-            tempMessage = "It's bloody freezing.. Where's me jacket?";
-        else if (temp <= 15)
-            tempMessage = "Chilly!  A light jacket or sweater will do";
-        else if (temp <= 25)
-            tempMessage = "Nice weather!  Something comfy and breathable works";
-        else
-            tempMessage = "Hot hot hot! Shorts and a tee are your friends today";
+        string tempMessage =
+            temp <= 5 ? "It's bloody freezing.. Where's me jacket?" :
+            temp <= 15 ? "Chilly! A light jacket or sweater will do" :
+            temp <= 25 ? "Nice weather! Something comfy and breathable works" :
+            "Hot hot hot! Shorts and a tee are your friends today";
 
         string conditionMessage = conditionType switch
         {
-            WeatherCondition.Rainy => "Don't forget your umbrella or a cute raincoat!",
-            WeatherCondition.Snowy => "❄ Boots and a warm hat are a must!",
-            WeatherCondition.Cloudy => "Layer up lightly, it might be a bit cool.",
-            WeatherCondition.Sunny => "Sunglasses and vibes only!",
+            WeatherCondition.Rainy => "Don't forget your umbrella!",
+            WeatherCondition.Snowy => "Boots and a warm hat!",
+            WeatherCondition.Cloudy => "Layer lightly.",
+            WeatherCondition.Sunny => "Sunglasses and vibes.",
             _ => ""
         };
 
         return $"{tempMessage} {conditionMessage}";
     }
 
-    //changed from aysnc to void
     private void ApplyFiltersAndSort()
-     
     {
         if (outfitItems == null || outfitItems.Count == 0)
         {
@@ -223,75 +205,57 @@ else if (!string.IsNullOrWhiteSpace(city))
             return;
         }
 
-        // Apply filtering based on name and colour
         var filtered = outfitItems.Where(item =>
-  {
-      // Check if the item's name matches the name filter 
-      bool matchesName = string.IsNullOrWhiteSpace(nameFilter) ||
-                         (!string.IsNullOrWhiteSpace(item.Name) &&
-                          item.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase));
-      // Check if the item's name contains the name filter (case-insensitive)
-      bool matchesColour = string.IsNullOrWhiteSpace(colourFilter) ||
-                           (!string.IsNullOrWhiteSpace(item.Colour) &&
-                            item.Colour.Contains(colourFilter, StringComparison.OrdinalIgnoreCase));
+        {
+            bool matchesName =
+                string.IsNullOrWhiteSpace(nameFilter) ||
+                (!string.IsNullOrWhiteSpace(item.Name) &&
+                 item.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase));
 
+            bool matchesColour =
+                string.IsNullOrWhiteSpace(colourFilter) ||
+                (!string.IsNullOrWhiteSpace(item.Colour) &&
+                 item.Colour.Contains(colourFilter, StringComparison.OrdinalIgnoreCase));
 
-      return matchesName && matchesColour;
-  }).ToList();
+            return matchesName && matchesColour;
+        }).ToList();
 
-  // Apply sorting to the filtered list 
         displayedItems = currentSort switch
         {
-            
-            "priceAsc" => filtered.OrderBy(item => ParsePrice(item.Price)).ToList(),
-            "priceDesc" => filtered.OrderByDescending(item => ParsePrice(item.Price)).ToList(),
-            "nameAsc" => filtered.OrderBy(item => item.Name).ToList(),
-            "nameDesc" => filtered.OrderByDescending(item => item.Name).ToList(),
+            "priceAsc" => filtered.OrderBy(x => ParsePrice(x.Price)).ToList(),
+            "priceDesc" => filtered.OrderByDescending(x => ParsePrice(x.Price)).ToList(),
+            "nameAsc" => filtered.OrderBy(x => x.Name).ToList(),
+            "nameDesc" => filtered.OrderByDescending(x => x.Name).ToList(),
             _ => filtered
         };
     }
 
     private async Task SortChanged(ChangeEventArgs e)
-    {
-        currentSort = e.Value?.ToString() ?? "";
-    }
+        => currentSort = e.Value?.ToString() ?? "";
 
-    // Helper to parse price strings like "$49.99" to decimal
     private decimal ParsePrice(string price)
     {
-        // Handle null or empty strings gracefully and return a high value for sorting
-        if (string.IsNullOrWhiteSpace(price)) return decimal.MaxValue;
+        if (string.IsNullOrWhiteSpace(price))
+            return decimal.MaxValue;
 
-        // Keep only digits and dot for decimal parsing,
         var cleaned = new string(price.Where(c => char.IsDigit(c) || c == '.').ToArray());
 
-        // Try parsing the cleaned string to decimal
-        return decimal.TryParse(cleaned, out var result) ? result : decimal.MaxValue;
+        return decimal.TryParse(cleaned, out var result)
+            ? result
+            : decimal.MaxValue;
     }
-   
-
-
 
     private async Task SaveToLookbook(StyleItem item)
     {
-        // Save item to local storage using JS interop: JS INTEROP is a bridge between C# and JavaScript in Blazor applications. 
-        //invokevoidasync is used to call a JavaScript function that does not return a value.
-        // Here, it calls the "saveToLookbook" function defined in JavaScript, passing the item to be saved.
         await JS.InvokeVoidAsync("saveToLookbook", item);
     }
 
-    //clear filters
     private void ClearFilters()
-{
-        // Reset filters and sort
-    nameFilter = string.Empty;
-    colourFilter = string.Empty;
-    currentSort = "";
-    displayedItems = outfitItems.ToList();
-   StateHasChanged();
+    {
+        nameFilter = "";
+        colourFilter = "";
+        currentSort = "";
+        displayedItems = outfitItems.ToList();
+        StateHasChanged();
+    }
 }
-
-
-
-}
- 

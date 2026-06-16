@@ -1,6 +1,6 @@
 ﻿
 
-@font-face {
+/*@font-face {
     font-family: 'goth';
     src: url('/fonts/gothamrnd_bold.otf') format('opentype');
     font-weight: bold;
@@ -190,17 +190,17 @@ button {
     .weather-card {
         flex: 1 1 calc(20% - 20px);
     }
-}
+}*/
 
-   
+
 /* Sort Dropdown */
-#sortOptions {
+/*#sortOptions {
     padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    font-size: 0.9rem;
+    font-size: 0.9rem;*/
 /*    margin-bottom: 20px;*/
-}
+/*}
 
 .temperature-message {
     font-size: 1.1rem;
@@ -257,9 +257,9 @@ button {
     padding-right: 2rem;
 }
 
-.lookbook-btn, .lookbook-btn a {
-    /*    background-color: #C71E4D;*/
-    color: #C71E4D;
+.lookbook-btn, .lookbook-btn a {*/
+/*    background-color: #C71E4D;*/
+/*color: #C71E4D;
     border: 2px solid #C71E4D;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -469,7 +469,7 @@ button {
     font-size: 2rem;
     margin-bottom: 15px;
     color: #C71E4D;
-}
+}*/
 
 /*.weather-list {
     display: grid;
@@ -488,7 +488,7 @@ button {
     text-align: center;
 }*/
 
-.dividerhero {
+/*.dividerhero {
     background-color: white;
     height: auto;
     padding-left: 10px;
@@ -703,14 +703,14 @@ button {
         font-weight: 500;
         color: #C71E4D;
     }
-}
+}*/
 
 /* === MOBILE RESPONSIVE FIXES === */
 
 /* Screens up to 720px */
-@media (max-width: 720px) {
-    /* Header logo and H1 stack */
-    .top-row {
+/*@media (max-width: 720px) {*/
+/* Header logo and H1 stack */
+/*.top-row {
         flex-direction: column;
         align-items: center;
         padding: 0.5rem;
@@ -726,20 +726,20 @@ button {
         font-size: 1.5rem;
         text-align: center;
         margin-bottom: 10px;
-    }
+    }*/
 
-    /* Lookbook button centered under logo + H1 */
-    .lookbook-btn {
+/* Lookbook button centered under logo + H1 */
+/*.lookbook-btn {
         display: block;
-        margin: 10px auto 20px auto; /* centered below H1 */
-        font-size: 1rem;
+        margin: 10px auto 20px auto;*/ /* centered below H1 */
+/*font-size: 1rem;
         padding: 0.4rem 0.6rem;
         width: auto;
         text-align: center;
-    }
+    }*/
 
-    /* Weather card responsive */
-    .weather-card-wrapper {
+/* Weather card responsive */
+/*.weather-card-wrapper {
         flex-direction: column;
         align-items: center;
         height: auto;
@@ -770,12 +770,12 @@ button {
     .temperature-message {
         font-size: 1rem;
         margin-top: 10px;
-    }
+    }*/
 
-    /* Filters / sort / search stacking */
-    .controls-row {
-        flex-direction: column; /* stack everything vertically */
-        align-items: stretch;
+/* Filters / sort / search stacking */
+/*.controls-row {
+        flex-direction: column;*/ /* stack everything vertically */
+/*align-items: stretch;
         gap: 10px;
         margin-left: auto;
         margin-right: auto;
@@ -783,8 +783,8 @@ button {
     }
 
     .filter-section {
-        flex-direction: column; /* stack inputs and button */
-        gap: 8px;
+        flex-direction: column;*/ /* stack inputs and button */
+/*gap: 8px;
         width: 100%;
         align-items: stretch;
     }
@@ -815,7 +815,454 @@ button {
             width: 100%;
             min-width: unset;
         }
+}*/
+
+@font-face {
+    font-family: 'AlteHaasBold';
+    src: url('/fonts/AlteHaasGroteskBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AlteHaasRegular';
+    src: url('/fonts/AlteHaasGroteskRegular.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+    background: #000;
+    color: white;
+    overflow-x: hidden;
+    font-family: 'AlteHaasRegular', sans-serif;
+}
+
+.page {
+    min-height: 100vh;
+    background: #000;
+}
+
+.top-row {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(20px);
+    z-index: 999;
 }
 
 
- 
+.style-forecast-link h1 {
+    font-size: 1.2rem;
+    letter-spacing: .35rem;
+    text-transform: uppercase;
+    color: white;
+    font-family: 'AlteHaasBold';
+}
+
+.style-forecast-link {
+    text-decoration: none;
+}
+
+    .style-forecast-link h1 {
+        color: white;
+        font-family: 'AlteHaasBold';
+        font-size: 1rem;
+        letter-spacing: .4rem;
+        text-transform: uppercase;
+    }
+
+.lookbook-btn,
+.lookbook-btn a {
+    border: 1px solid rgba(255,255,255,.2);
+    background: transparent;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    transition: .3s;
+}
+
+    .lookbook-btn:hover {
+        background: white;
+        color: black;
+    }
+
+/*.hero {
+    min-height: 100vh;
+    background: linear-gradient( rgba(0,0,0,.25), rgba(0,0,0,.25) ), url("/images/hero1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.hero {
+    min-height: 100vh;
+    background: linear-gradient( rgba(0,0,0,.4), rgba(0,0,0,.6) ), url("/images/hero1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px; /* fixes top collision */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(4rem,10vw,10rem);
+    line-height: .9;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: white;
+    max-width: 900px;
+    font-family: 'AlteHaasBold';
+}
+
+.search-city {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+    position: relative;
+}
+
+    .search-city input {
+        width: 600px;
+        height: 70px;
+        font-size: 1.1rem;
+        color: black;
+        background: rgba(255,255,255,0.92);
+        border: none;
+        border-radius: 999px;
+        padding: 0 2rem;
+        outline: none;
+    }
+
+        .search-city input::placeholder {
+            color: rgba(0,0,0,0.45);
+        }
+
+    .search-city button {
+        height: 70px;
+        padding: 0 2.5rem;
+        border-radius: 999px;
+        border: none;
+        background: white;
+        color: black;
+        font-family: 'AlteHaasBold';
+        cursor: pointer;
+    }
+
+.weather-card {
+    background: #111;
+    border: none;
+    border-radius: 40px;
+    padding: 4rem;
+    color: white;
+    max-width: 1200px;
+}
+
+.weather-title {
+    font-size: 5rem;
+    letter-spacing: .2rem;
+}
+
+
+
+.hero-subtitle {
+    margin-top: 1rem;
+    color: rgba(255,255,255,.7);
+    font-size: 1.1rem;
+    letter-spacing: .15rem;
+    text-transform: uppercase;
+}
+
+.hero-label {
+    color: rgba(255,255,255,.5);
+    letter-spacing: .4rem;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+
+.weather-card-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 6rem 2rem;
+}
+
+.weather-list,
+.weather-list2 {
+    list-style: none;
+    padding: 0;
+}
+
+.hero-subtitle,
+.hero-label,
+.search-city input,
+.lookbook-btn {
+    font-family: 'AlteHaasRegular';
+}
+
+
+@media (max-width: 768px) {
+
+    .search-city {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .search-city input {
+            width: 100%;
+            max-width: 90vw;
+        }
+
+        .search-city button {
+            width: 100%;
+            max-width: 90vw;
+        }
+
+    .hero h1 {
+        max-width: 900px;
+        margin: 0 auto;
+        letter-spacing: -0.06em;
+    }
+}
+
+.navbar-toggler,
+.nav-scrollable,
+.navbar-brand,
+.nav-item {
+    display: none !important;
+}
+
+.logo-image {
+    height: 40px;
+    width: auto;
+}
+
+.weather-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+}
+
+.weather-card {
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 40px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 5rem;
+    color: white;
+    backdrop-filter: blur(20px);
+}
+
+.weather-title {
+    font-family: 'AlteHaasBold';
+    font-size: clamp(3rem,7vw,7rem);
+    letter-spacing: -.05em;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.temperature-big {
+    font-size: clamp(5rem,12vw,10rem);
+    font-family: 'AlteHaasBold';
+    line-height: .9;
+    margin-bottom: 2rem;
+}sea
+
+.weather-list,
+.weather-list2 {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: rgba(255,255,255,.75);
+}
+
+
+    .weather-list li,
+    .weather-list2 li {
+        margin: 10px 0;
+    }
+
+
+.weather-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,.7);
+}
+
+
+.temperature-message {
+    margin-top: 4rem;
+    font-size: 2rem;
+    line-height: 1.3;
+    color: white;
+    max-width: 700px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.product-card {
+    background: transparent;
+    border: none;
+    overflow: hidden;
+    transition: .4s;
+}
+
+    .product-card img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 24px;
+        transition: .5s;
+    }
+
+
+    .product-card:hover img {
+        transform: scale(1.03);
+    }
+
+    .product-card h3,
+    .product-card p {
+        color: white;
+        margin-top: 1rem;
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+.product-price {
+    color: rgba(255,255,255,.6);
+    margin-top: .5rem;
+}
+
+.save-btn {
+    border: 1px solid rgba(255,255,255,.15);
+    background: transparent;
+    color: white;
+    border-radius: 999px;
+    padding: .8rem 1.2rem;
+    margin-top: 1rem;
+}
+
+.weather-location-label {
+    color: rgba(255,255,255,.45);
+    text-transform: uppercase;
+    letter-spacing: .25rem;
+    margin-bottom: 1rem;
+}
+
+.temperature-big {
+    font-size: clamp(6rem,12vw,10rem);
+    font-family: 'AlteHaasBold';
+    line-height: .9;
+    margin-bottom: 3rem;
+}
+
+.controls-row {
+    margin: 3rem 0;
+}
+
+.filter-section {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+    .filter-section input,
+    .sort-container select {
+        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(255,255,255,.12);
+        color: white;
+        border-radius: 999px;
+        padding: 1rem 1.5rem;
+    }
+
+    .filter-section button {
+        border-radius: 999px;
+        background: white;
+        color: black;
+        border: none;
+        padding: 1rem 1.5rem;
+    }
+
+.recommend-title {
+    font-family: 'AlteHaasBold';
+    font-size: clamp(3rem,7vw,6rem);
+    letter-spacing: -.05em;
+    margin-bottom: 3rem;
+}
+
+.dividerhero {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+}
+
+.product-card h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-family: 'AlteHaasBold';
+    margin-top: 1rem;
+}
+
+.product-brand {
+    color: rgba(255,255,255,.45);
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+}
+
+.spinner-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(6px);
+}
+
+.spinner-border {
+    width: 4rem !important;
+    height: 4rem !important;
+}
+
+.spinner-border {
+    color: #ffffff;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+}
