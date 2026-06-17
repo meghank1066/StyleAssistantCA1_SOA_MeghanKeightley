@@ -108,8 +108,6 @@ The application will launch locally and be available through your browser.
 
 **Meghan Keightley**
 
-Interactive Digital Media Student
-
 Created as part of a Service-Oriented Architecture project, exploring the integration of external APIs, responsive design, and personalised user experiences.
 
 ---
