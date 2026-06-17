@@ -1,5 +1,7 @@
 # Style Forecast
 
+![Style Forecast Preview](wwwroot/images/styleforecast-preview.png)
+
 Fashion meets forecasting.
 
 Style Forecast is a Blazor web application that delivers weather-aware fashion recommendations, helping users discover outfits tailored to current conditions in their chosen location. By combining real-time weather data with fashion products from ASOS, the platform creates a personalised shopping and outfit inspiration experience.
