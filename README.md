@@ -1,40 +1,121 @@
 # Style Forecast
 
-# Overview
+Fashion meets forecasting.
 
-### Style Forecast is a Blazor web application that provides personalized
-### fashion recommendations based on the weather in a user’s location.
-### By combining live weather data with fashion product information,
-### users can discover season-appropriate outfits and save their favorites in a Lookbook.
+Style Forecast is a Blazor web application that delivers weather-aware fashion recommendations, helping users discover outfits tailored to current conditions in their chosen location. By combining real-time weather data with fashion products from ASOS, the platform creates a personalised shopping and outfit inspiration experience.
 
-# Features
+---
 
-### Enter a location to retrieve current weather (OpenWeather API)
+## About
 
-### View fashion recommendations from ASOS based on weather conditions
+Choosing what to wear shouldn't require checking five different apps.
 
-### Search and filter products by category, price, or keyword
+Style Forecast analyses live weather conditions and curates clothing recommendations that suit the temperature, season, and forecast. Users can explore products, discover new styles, and save their favourite pieces to a personal Lookbook for future inspiration.
 
-### Save items to a personal Lookbook for future reference
+---
 
-### Recommendations are sorted by season and category for a smooth browsing experience
+## Features
 
-# APIs Used
+### Live Weather Integration
+- Retrieve current weather conditions using the OpenWeather API
+- Search by location
+- Weather-driven outfit recommendations
 
-### Weather API: [OpenWeather](https://openweathermap.org/api)
+### Smart Fashion Discovery
+- Browse clothing recommendations sourced from ASOS
+- View products tailored to current weather conditions
+- Seasonal and category-based recommendations
 
-### Fashion API: [ASOS via RapidAPI](https://rapidapi.com/apidojo/api/Asos)
+### Search & Filtering
+- Filter products by category
+- Search by keyword
+- Browse products more efficiently
 
-# Getting Started
+### Personal Lookbook
+- Save favourite fashion items
+- Build a curated collection of outfit inspiration
+- Access saved products anytime
 
-# Getting Started
+---
 
-- **Clone the repository:**  
-  `git clone <https://github.com/meghank1066/StyleAssistantCA1_SOA_MeghanKeightley.git>`
-- **Open the solution in Visual Studio**
-  
-- **Restore NuGet packages**
-  
-- **Run the application**
-  
-- **Enjoy!** 
+## Built With
+
+- **Blazor Server**
+- **C#**
+- **ASP.NET Core**
+- **HTML5**
+- **CSS3**
+- **OpenWeather API**
+- **ASOS API (RapidAPI)**
+
+---
+
+## APIs
+
+### Weather Data
+OpenWeather API
+
+https://openweathermap.org/api
+
+### Fashion Products
+ASOS API via RapidAPI
+
+https://rapidapi.com/apidojo/api/Asos
+
+---
+
+## Application Highlights
+
+- Responsive interface
+- Weather-aware recommendations
+- Fashion-focused user experience
+- Personal Lookbook functionality
+- Modern UI inspired by contemporary fashion platforms
+
+---
+
+## Installation
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/meghank1066/StyleAssistantCA1_SOA_MeghanKeightley.git
+```
+
+### Navigate to the Project
+
+```bash
+cd StyleAssistantCA1_SOA_MeghanKeightley
+```
+
+### Restore Dependencies
+
+```bash
+dotnet restore
+```
+
+### Run the Application
+
+```bash
+dotnet run
+```
+
+The application will launch locally and be available through your browser.
+
+---
+
+## Author
+
+**Meghan Keightley**
+
+Created as part of a Service-Oriented Architecture project, exploring the integration of external APIs, responsive design, and personalised user experiences.
+
+---
+
+## Future Improvements
+
+- User authentication
+- Expanded retailer integrations
+- AI-powered outfit suggestions
+- Enhanced recommendation engine
+- Seasonal trend forecasting
