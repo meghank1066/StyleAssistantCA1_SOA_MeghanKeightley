@@ -6,136 +6,168 @@
 
 <PageTitle>Home</PageTitle>
 
-<section class="hero">
-    <div class="hero-content">
+<section class="hero @(showResults ? "is-result" : "is-search")">
+    <div class="hero-image">
+        <img src="/images/hero1.jpg" />
+    </div>
+    <div class="hero-inner">
 
-        <span class="hero-label">FASHION × WEATHER</span>
-
-        <h1>STYLE FORECAST</h1>
-
-        <p class="hero-subtitle">
-            Weather-powered outfit recommendations.
-        </p>
-
-        <div class="search-city">
-            <input @bind="city" placeholder="Enter city, country code (e.g., Dublin,IE)" />
-            <button @onclick="GetWeather">Show Weather</button>
-        </div>
-
-        @if (LoadingAnimation)
+        @if (!showResults)
         {
-            <div class="spinner-overlay d-flex flex-column justify-content-center align-items-center">
-                <div class="spinner-border" style="width: 4rem; height: 4rem;">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="hero-intro">
+                <span class="hero-label">FASHION × WEATHER</span>
+
+                <h1>STYLE FORECAST</h1>
+
+                <p class="hero-subtitle">
+                    Weather-powered outfit recommendations.
+                </p>
+
+                <div class="search-city">
+                    <input @bind="city" placeholder="Enter city..." />
+                    <button @onclick="GetWeather">Show Weather</button>
                 </div>
             </div>
         }
 
+        @if (showResults && weather != null)
+        {
+            <div class="hero-result">
+
+                <div class="weather-card">
+
+                    <div class="weather-top">
+                        <span>CURRENT WEATHER</span>
+                        <span>@weather.City</span>
+                    </div>
+
+                    <div class="weather-temp">
+                        @Math.Round(weather.Temperature)°
+                    </div>
+
+                    <div class="weather-condition">
+                        @weather.Condition
+                    </div>
+
+                    <div class="weather-grid">
+                        <div>
+                            <span>Current Time</span>
+                            <p>@weather.CurrentTime.ToString("h:mm tt")</p>
+                        </div>
+                        <div>
+                            <span>Sunrise</span>
+                            <p>@weather.Sunrise.ToString("h:mm tt")</p>
+                        </div>
+
+                        <div>
+                            <span>Sunset</span>
+                            <p>@weather.Sunset.ToString("h:mm tt")</p>
+                        </div>
+
+                        <div>
+                            <span>Humidity</span>
+                            <p>@weather.Humidity%</p>
+                        </div>
+                    </div>
+
+                    <div class="weather-message">
+                        @GetOutfitSuggestion(weather.Temperature, weather.ConditionType)
+                    </div>
+                    @if (showResults)
+
+                    {
+                        <button class="weather-search-btn" @onclick="Reset">
+                            ← New Search
+                        </button>
+                    }
+                    </div>
+                
+            </div>
+        }
+
     </div>
+
 </section>
 
-@if (weather != null)
+@if (showResults)
 {
-    <div class="weather-card-wrapper">
+    <section class="results-section">
 
-        <div class="weather-card">
+        <h2>Recommended Wardrobe Staples</h2>
 
-            <div class="weather-location-label">Current Weather</div>
+        <div class="controls-row">
 
-            <h2 class="weather-title">@weather.City</h2>
+            @* <input @bind="nameFilter" placeholder="Filter by name" /> *@
+            <input class="filter-input"
+                   @bind="nameFilter"
+                   placeholder="Filter by name" />
+            @* <input @bind="colourFilter" placeholder="Filter by colour" /> *@
+            <input class="filter-input"
+                   @bind="colourFilter"
+                   placeholder="Filter by colour" />
 
-            <div class="temperature-big">
-                @Math.Round(weather.Temperature)°
-            </div>
+            <select class="filter-select"
+                    @onchange="SortChanged">
+                <option value="">Sort</option>
+                <option value="priceAsc">Price ↑</option>
+                <option value="priceDesc">Price ↓</option>
+                <option value="nameAsc">Name A-Z</option>
+                <option value="nameDesc">Name Z-A</option>
+            </select>
 
-            <ul class="weather-list">
-                <li>Temperature: @weather.Temperature°C</li>
-                <li>Condition: @weather.Condition</li>
-                <li>Sunrise: @weather.Sunrise.ToString("h:mm tt")</li>
-            </ul>
+            @* <select @onchange="SortChanged">
+                <option value="">Sort</option>
+                <option value="priceAsc">Price ↑</option>
+                <option value="priceDesc">Price ↓</option>
+                <option value="nameAsc">Name A-Z</option>
+                <option value="nameDesc">Name Z-A</option>
+            </select> *@
 
-            <ul class="weather-list2">
-                <li>Sunset: @weather.Sunset.ToString("h:mm tt")</li>
-                <li>Humidity: @weather.Humidity%</li>
-            </ul>
+            @* <button @onclick="ApplyFiltersAndSort">Apply</button>
+            <button @onclick="ClearFilters">Clear</button> *@
+            <button class="filter-btn"
+                    @onclick="ApplyFiltersAndSort">
+                Apply
+            </button>
 
-            <p class="temperature-message">
-                @GetOutfitSuggestion(weather.Temperature, weather.ConditionType)
-            </p>
-
-        </div>
-    </div>
-
-    <div class="dividerhero">
-        <h2 class="recommend-title">Recommended Wardrobe Staples</h2>
-    </div>
-
-    <div class="controls-row">
-        <div class="filter-section">
-
-            <div class="sort-container">
-                <label>Sort by:</label>
-                <select @onchange="SortChanged">
-                    <option value="">Select...</option>
-                    <option value="priceAsc">Price: Low to High</option>
-                    <option value="priceDesc">Price: High to Low</option>
-                    <option value="nameAsc">Name: A to Z</option>
-                    <option value="nameDesc">Name: Z to A</option>
-                </select>
-            </div>
-
-            <input @bind="nameFilter" placeholder="Filter by name" />
-            <input @bind="colourFilter" placeholder="Filter by colour" />
-
-            <button @onclick="ApplyFiltersAndSort">Apply Filters</button>
-            <button @onclick="ClearFilters">Clear</button>
+            <button class="filter-btn filter-btn-secondary"
+                    @onclick="ClearFilters">
+                Clear
+            </button>
 
         </div>
-    </div>
 
-    @if (displayedItems != null && displayedItems.Count > 0)
-    {
-        <div class="product-grid">
+        @if (displayedItems != null && displayedItems.Count > 0)
+        {
+            <div class="product-grid">
 
-            @foreach (var item in displayedItems)
-            {
-                <div class="product-card">
+                @foreach (var item in displayedItems)
+                {
+                    <div class="product-card">
 
-                    <a href="@(item.ProductUrl.StartsWith("http")
+                        <a href="@(item.ProductUrl.StartsWith("http")
                                                        ? item.ProductUrl
                                                        : "https://www.asos.com" + item.ProductUrl)"
-           target="_blank">
+               target="_blank">
 
-                        <img src="@item.ImageUrl" alt="@item.Name" />
-                    </a>
+                            <img src="@item.ImageUrl" />
+                        </a>
 
-                    <h3>@item.Name</h3>
-                    <p>@item.Brand</p>
-                    <p>@item.Price</p>
+                        <h3>@item.Name</h3>
+                        <p>@item.Brand</p>
+                        <p>@item.Price</p>
 
-                    <button @onclick="() => SaveToLookbook(item)">
-                        Save
-                    </button>
+                        <button @onclick="() => SaveToLookbook(item)">
+                            Save
+                        </button>
 
-                </div>
+                    </div>
+                }
+
+            </div>
         }
 
-        </div>
-    }
-    else if (!LoadingAnimation)
-    {
-        <p>
-            @(outfitItems != null && outfitItems.Count > 0
-                ? "No matches found for your filter 😕"
-                : "No outfit suggestions available.")
-</p>
-    }
-}
-else if (!string.IsNullOrWhiteSpace(city))
-{
-    <div class="loading-weather">
-        <p>Loading weather for "@city"...</p>
-    </div>
+    </section>
 }
 
 @code {
@@ -150,47 +182,42 @@ else if (!string.IsNullOrWhiteSpace(city))
     private string nameFilter = "";
     private string colourFilter = "";
 
-    private bool LoadingAnimation = false;
+    private bool showResults = false;
 
     private async Task GetWeather()
     {
-        LoadingAnimation = true;
+        showResults = false;
 
-        outfitItems.Clear();
-        displayedItems.Clear();
-        weather = null;
+        weather = await WeatherService.GetWeatherForCityAsync(city);
 
-        try
+        if (weather != null)
         {
-            weather = await WeatherService.GetWeatherForCityAsync(city);
+            outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
+            displayedItems = outfitItems.ToList();
+            showResults = true;
+        }
+    }
 
-            if (weather != null)
-            {
-                outfitItems = await AsosService.GetStyleForWeatherAsync(weather);
-                displayedItems = outfitItems.ToList();
-            }
-        }
-        finally
-        {
-            LoadingAnimation = false;
-            StateHasChanged();
-        }
+    private void Reset()
+    {
+        showResults = false;
+        city = "";
     }
 
     private string GetOutfitSuggestion(double temp, WeatherCondition conditionType)
     {
         string tempMessage =
-            temp <= 5 ? "It's bloody freezing.. Where's me jacket?" :
-            temp <= 15 ? "Chilly! A light jacket or sweater will do" :
-            temp <= 25 ? "Nice weather! Something comfy and breathable works" :
-            "Hot hot hot! Shorts and a tee are your friends today";
+            temp <= 5 ? "It's freezing so grab a jacket." :
+            temp <= 15 ? "Chilly so best to wear light layers." :
+            temp <= 25 ? "Mild so wear anything breathable." :
+            "Hot — keep it light.";
 
         string conditionMessage = conditionType switch
         {
-            WeatherCondition.Rainy => "Don't forget your umbrella!",
-            WeatherCondition.Snowy => "Boots and a warm hat!",
+            WeatherCondition.Rainy => "Bring an umbrella.",
+            WeatherCondition.Snowy => "Wear warm gear.",
             WeatherCondition.Cloudy => "Layer lightly.",
-            WeatherCondition.Sunny => "Sunglasses and vibes.",
+            WeatherCondition.Sunny => "Sunglasses recommended.",
             _ => ""
         };
 
@@ -199,25 +226,17 @@ else if (!string.IsNullOrWhiteSpace(city))
 
     private void ApplyFiltersAndSort()
     {
-        if (outfitItems == null || outfitItems.Count == 0)
-        {
-            displayedItems = new List<StyleItem>();
-            return;
-        }
-
         var filtered = outfitItems.Where(item =>
         {
-            bool matchesName =
+            bool nameOk =
                 string.IsNullOrWhiteSpace(nameFilter) ||
-                (!string.IsNullOrWhiteSpace(item.Name) &&
-                 item.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase));
+                item.Name?.Contains(nameFilter, StringComparison.OrdinalIgnoreCase) == true;
 
-            bool matchesColour =
+            bool colourOk =
                 string.IsNullOrWhiteSpace(colourFilter) ||
-                (!string.IsNullOrWhiteSpace(item.Colour) &&
-                 item.Colour.Contains(colourFilter, StringComparison.OrdinalIgnoreCase));
+                item.Colour?.Contains(colourFilter, StringComparison.OrdinalIgnoreCase) == true;
 
-            return matchesName && matchesColour;
+            return nameOk && colourOk;
         }).ToList();
 
         displayedItems = currentSort switch
@@ -230,25 +249,25 @@ else if (!string.IsNullOrWhiteSpace(city))
         };
     }
 
-    private async Task SortChanged(ChangeEventArgs e)
-        => currentSort = e.Value?.ToString() ?? "";
+    // private async Task SortChanged(ChangeEventArgs e)
+    //     => currentSort = e.Value?.ToString() ?? "";
 
+    private async Task SortChanged(ChangeEventArgs e)
+    {
+        currentSort = e.Value?.ToString() ?? "";
+        ApplyFiltersAndSort();
+    }
     private decimal ParsePrice(string price)
     {
         if (string.IsNullOrWhiteSpace(price))
             return decimal.MaxValue;
 
         var cleaned = new string(price.Where(c => char.IsDigit(c) || c == '.').ToArray());
-
-        return decimal.TryParse(cleaned, out var result)
-            ? result
-            : decimal.MaxValue;
+        return decimal.TryParse(cleaned, out var r) ? r : decimal.MaxValue;
     }
 
     private async Task SaveToLookbook(StyleItem item)
-    {
-        await JS.InvokeVoidAsync("saveToLookbook", item);
-    }
+        => await JS.InvokeVoidAsync("saveToLookbook", item);
 
     private void ClearFilters()
     {
@@ -256,6 +275,5 @@ else if (!string.IsNullOrWhiteSpace(city))
         colourFilter = "";
         currentSort = "";
         displayedItems = outfitItems.ToList();
-        StateHasChanged();
     }
 }

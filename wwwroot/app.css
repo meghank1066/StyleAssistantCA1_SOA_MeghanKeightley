@@ -57,3 +57,38 @@ h1:focus {
 dl, ol, ul {
     color: white;
 }
+
+
+.weather-search-btn {
+    margin-top: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    color: white;
+    font-family: 'AlteHaasRegular';
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: transform .25s ease, background .25s ease, border-color .25s ease;
+}
+
+    .weather-search-btn:hover {
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.22);
+        transform: translateY(-2px);
+    }
+
+    .weather-search-btn:active {
+        transform: translateY(0);
+    }
+
+.weather-search-btn {
+    background: red !important;
+    color: yellow !important;
+    padding: 20px !important;
+}

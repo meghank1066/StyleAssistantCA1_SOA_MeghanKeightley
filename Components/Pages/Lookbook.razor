@@ -1,4 +1,4 @@
-﻿@page "/lookbook"
+﻿@* @page "/lookbook"
 @inject IJSRuntime JS
 
 <h1>Your Lookbook ❤️</h1>
@@ -23,6 +23,56 @@ else
     <p>No items in your lookbook yet :(</p>
     </div>
 }
+*@
+
+@page "/lookbook"
+@inject IJSRuntime JS
+
+<div class="lookbook-container">
+    <header class="lookbook-header">
+        <span class="editorial-label">Curated Collection</span>
+        <h1>YOUR LOOKBOOK</h1>
+    </header>
+
+    @if (likedItems != null && likedItems.Count > 0)
+    {
+        <div class="product-grid">
+            @foreach (var item in likedItems)
+            {
+                <div class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                        <button class="remove-btn" @onclick="() => RemoveItem(item)" aria-label="Remove item">
+                            <span>✕</span>
+                        </button>
+                    </div>
+                    
+                    <div class="product-info">
+                        <span class="product-brand">@item.Brand</span>
+                        <h3 class="product-name">@item.Name</h3>
+                        <p class="product-price">@item.Price</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-lookbook">
+            <span class="empty-label">Curated Collection</span>
+
+            <h2>Your Lookbook Awaits</h2>
+
+            <p>
+                Save pieces from your style forecasts to build your personal collection.
+            </p>
+
+            <a href="/" class="return-shop-btn">
+                Explore Style Forecast
+            </a>
+        </div>
+    }
+</div>
 
 @code {
     private List<StyleItem> likedItems = new();
@@ -43,4 +93,5 @@ else
         await JS.InvokeVoidAsync("localStorageHelper.setItem", "lookbook", likedItems);
         StateHasChanged(); // updates the UI after removing an item
     }
-}
+} 
+

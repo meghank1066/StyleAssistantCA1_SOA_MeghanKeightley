@@ -41,6 +41,24 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                 });
 
                 //adding in enum for more marks lol
+                //var weather = new WeatherClass
+                //{
+                //    City = data.Name,
+                //    Temperature = data.Main.Temp,
+                //    FeelsLike = data.Main.Feels_Like,
+                //    Humidity = data.Main.Humidity,
+                //    Condition = data.Weather?.FirstOrDefault()?.Main ?? "Unknown",
+                //    Sunrise = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunrise).LocalDateTime,
+                //    Sunset = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunset).LocalDateTime
+                //};
+
+                var sunriseUtc = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunrise);
+                var sunsetUtc = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunset);
+                var cityTime = DateTimeOffset
+    .FromUnixTimeSeconds(data.Dt)
+    .ToOffset(TimeSpan.FromSeconds(data.Timezone))
+    .DateTime;
+
                 var weather = new WeatherClass
                 {
                     City = data.Name,
@@ -48,8 +66,14 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
                     FeelsLike = data.Main.Feels_Like,
                     Humidity = data.Main.Humidity,
                     Condition = data.Weather?.FirstOrDefault()?.Main ?? "Unknown",
-                    Sunrise = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunrise).LocalDateTime,
-                    Sunset = DateTimeOffset.FromUnixTimeSeconds(data.Sys.Sunset).LocalDateTime
+                    CurrentTime = cityTime,
+                    Sunrise = sunriseUtc
+                        .ToOffset(TimeSpan.FromSeconds(data.Timezone))
+                        .DateTime,
+
+                    Sunset = sunsetUtc
+                        .ToOffset(TimeSpan.FromSeconds(data.Timezone))
+                        .DateTime
                 };
 
                 // Assign enum to the instance, not the class

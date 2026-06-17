@@ -19,6 +19,8 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         public DateTime Sunrise { get; set; }     
         public DateTime Sunset { get; set; }
         public WeatherCondition ConditionType { get; set; } = WeatherCondition.Unknown;
+
+        public DateTime CurrentTime { get; set; }
     }
 
     public enum WeatherCondition
@@ -47,8 +49,12 @@ namespace StyleAssistantCA1_SOA_MeghanKeightley
         public MainInfo Main { get; set; } 
         public List<WeatherDescription> Weather { get; set; }
         public SysInfo Sys { get; set; }
+        public int Timezone { get; set; }
+        public long Dt { get; set; }
+
     }
 
+   
 
     public class WeatherDescription
     {
