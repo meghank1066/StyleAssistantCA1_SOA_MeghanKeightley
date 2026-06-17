@@ -1,6 +1,6 @@
 # Style Forecast
 
-![Style Forecast Preview](wwwroot/images/styleforecast-preview.png)
+![Style Forecast Preview](./wwwroot/images/styleforecast-preview.png)
 
 Fashion meets forecasting.
 
