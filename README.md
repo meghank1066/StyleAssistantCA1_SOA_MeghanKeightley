@@ -1,4 +1,4 @@
-# StyleAssistantCA1_SOA_MeghanKeightley
+# Style Forecast
 
 # Overview
 
